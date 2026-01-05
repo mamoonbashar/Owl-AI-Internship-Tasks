@@ -1,0 +1,80 @@
+Note: You must complete at least any 2 tasks from the list to qualify for the internship certificate.
+
+💻 Full Stack Developer Intern Tasks
+
+🧩 Task 1: Research the Role
+
+Objective: Create a 3-page PDF explaining the key responsibilities, tools, and importance of 
+a Full Stack Developer in the modern software industry.
+Include a Q&A section to highlight your understanding of the role and its relevance in tech.
+Tools/Platforms: Any documentation or design tool
+📤 Submission: Upload your completed work or source code to GitHub or Google Drive and share 
+the link. Additionally, post a photo or short video of your task on LinkedIn, and 
+tag our official Owl AI page to showcase your work.
+
+
+
+⚙️ Task 2: Build a Full Stack To-Do Application
+
+Objective: Develop a Full Stack To-Do App with complete CRUD functionality (Create, Read, Update, Delete).
+Steps to Complete:
+
+Design the front-end using HTML, CSS, and JavaScript.
+
+
+Build APIs for task management — adding, viewing, editing, and deleting tasks.
+
+
+Connect the front-end with the back-end using API calls.
+Tools/Platforms: HTML, CSS, JavaScript, Express.js or Django, MongoDB or MySQL
+📤 Submission: Upload your completed work or source code to GitHub or Google Drive
+ and share the link. Additionally, post a photo or short video of your task on LinkedIn, 
+ and tag our official Owl AI page to showcase your work.
+
+
+
+💬 Task 3: Real-Time Chat Application
+
+Objective: Create a simple real-time chat application using WebSocket technology.
+Problem Statement: Build an app that allows users to join chat rooms and exchange messages instantly.
+Steps to Complete:
+
+Set up a clean, minimal chat interface for users.
+
+
+Implement WebSocket on the back-end for real-time communication.
+
+
+Ensure messages update live without page reloads.
+Tools/Platforms:
+
+
+Code Editor: VS Code, Atom, or any preferred IDE
+
+
+Library: Socket.io (or any equivalent WebSocket library)
+
+
+Others: Any additional tools or datasets of your choice
+📤 Submission: Upload your completed work or source code to GitHub or Google Drive and share the link. 
+Additionally, post a photo or short video of your task on LinkedIn, 
+and tag our official Owl AI page to showcase your work.
+
+
+
+🚀 Task 4: Advanced – Owl AI Interactive Website
+
+Objective: Develop a basic responsive website for Owl AI, integrating your own creative features.
+Steps to Complete:
+
+Design and code a modern, user-friendly interface using HTML, CSS, and JavaScript.
+
+
+Add at least one interactive element — for example, button animations, pop-ups, or simple API calls.
+
+
+Make the website visually appealing, mobile-friendly, and easy to navigate.
+Tools/Platforms: HTML, CSS, JavaScript, VS Code
+📤 Submission: Upload your completed work or source code to GitHub or Google Drive and share
+ the link. Additionally, post a photo or short video of your task on LinkedIn,
+  and tag our official Owl AI page to showcase your work.
