@@ -1,0 +1,77 @@
+/todo-app-root
+├── /server                 # Node.js + Express (The Engine)
+│   ├── /src
+│   │   ├── /config         # Centralized configuration (db.js, env.js)
+│   │   ├── /models         # Mongoose Schemas (User.js, Task.js)
+│   │   ├── /routes         # API Endpoint definitions (authRoutes.js, taskRoutes.js)
+│   │   ├── /controllers    # Request/Response handling (authController.js)
+│   │   ├── /services       # Business Logic & DB queries (taskService.js)
+│   │   ├── /middleware     # (authGuard.js, errorHandler.js, validator.js)
+│   │   ├── /utils          # Helpers (AppError.js, catchAsync.js)
+│   │   └── app.js          # Express app configuration
+│   ├── .env                # Secrets (DB_URI, JWT_SECRET)
+│   ├── server.js           # Entry point (Starts the server)
+│   └── package.json
+│
+├── /client                 # React + Vite (The Interface)
+│   ├── /src
+│   │   ├── /api            # Axios instances & interceptors (axiosInstance.js)
+│   │   ├── /assets         # Static images/icons
+│   │   ├── /components     # Atomic UI (Button.jsx, Modal.jsx)
+│   │   ├── /features       # Domain logic (auth/, tasks/, dashboard/)
+│   │   │   └── /tasks      # (TaskCard.jsx, TaskList.jsx, useTasks.js)
+│   │   ├── /hooks          # Reusable hooks (useAuth.js, useTheme.js)
+│   │   ├── /pages          # Route-level views (LoginPage.jsx, Dashboard.jsx)
+│   │   ├── /store          # State management (Zustand or Context)
+│   │   ├── /styles         # Global CSS & Tailwind config
+│   │   └── App.jsx
+│   ├── vite.config.js
+│   └── tailwind.config.js
+
+Phase 1: Backend Development (The Core)
+Goal: Create a "headless" API that can handle data without a website.
+
+Step 1: Environment & Database (/backend/config)
+Initialize npm init and install express, mongoose, dotenv, and cors.
+
+Connect to MongoDB Atlas.
+
+Mentor Tip: Always log "MongoDB Connected" to your console so you know the bridge is open.
+
+Step 2: The Data Blueprint (/backend/models)
+Define your User.js (Email, Password, Username).
+
+Define your Task.js (Title, Description, Status, Category, UserID).
+
+Mentor Tip: Use { timestamps: true } in your Mongoose schema. It automatically adds
+ createdAt and updatedAt, which is vital for sorting "Recent Tasks."
+
+Step 3: The Brains (/backend/controllers)
+Write your logic for createTask, getTasks, and deleteTask.
+
+Mentor Tip: Use a "Global Error Handler." Don't use try/catch in every single function;
+ it makes the code messy. Use an asyncHandler wrapper.
+
+Step 4: The Guard (/backend/middleware)
+Create your auth.js middleware.
+
+Mentor Tip: This is where you verify the JWT (JSON Web Token). If the token is invalid, 
+the request stops here and never reaches the Controller. This protects user data.
+
+Phase 2: Frontend Development (The Interface)
+Goal: Build a beautiful UI that "talks" to your Backend.
+
+Step 5: API Service Setup (/frontend/src/services)
+Don't write axios calls inside your components.
+
+Create an api.js file that sets the baseURL to your local server (e.g., http://localhost:5000/api).
+
+Step 6: State Management (/frontend/src/context)
+Use React Context or Zustand to store the user's login state globally.
+
+Mentor Tip: If you refresh the page, your React state resets. You must write logic 
+to check localStorage for a token when the app first loads.
+
+Step 7: Building the Components (/frontend/src/components)
+Build your Atomic Components first (Button, Input).
+
