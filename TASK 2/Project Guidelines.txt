@@ -57,7 +57,7 @@ Create your auth.js middleware.
 
 Mentor Tip: This is where you verify the JWT (JSON Web Token). If the token is invalid, 
 the request stops here and never reaches the Controller. This protects user data.
-
+<<<<<<<<<<<<<<<<<**********************>>>>>>>>>>>>>>>>>>>
 Phase 2: Frontend Development (The Interface)
 Goal: Build a beautiful UI that "talks" to your Backend.
 

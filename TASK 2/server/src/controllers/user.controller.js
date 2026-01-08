@@ -98,4 +98,34 @@ export async function logout(req, res) {
   }
 }
 
-export async function deleteAccount(req, res) {}
+export async function deleteAccount(req, res) {
+  const userID = req.user.id;
+  try {
+    if (!userID) {
+      return res.status(401).json({ message: "You are not authorised" });
+    }
+    // check the user
+    const findUser = await UserModel.findById(userID);
+   
+
+    if (!findUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    // Checkt owner
+    if (!findUser._id.equals(userID)) {
+      return res
+        .status(400)
+        .json({ message: "You are not authorised to do this " });
+    }
+    await UserModel.findByIdAndDelete(userID);
+    return res
+      .status(200)
+      .json({ message: "User Deleted Successfully", success: true });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error",
+      success: false,
+      Error: error.message,
+    });
+  }
+}
