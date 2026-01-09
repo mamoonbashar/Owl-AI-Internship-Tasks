@@ -1,0 +1,147 @@
+/* Sign-up.module.css */
+
+.signUpContainer {
+  /* The main wrapper of the form component */
+  display: flex;
+  background-color: #ffff;
+  overflow: hidden;
+  height: 550px;
+  width: 80%;
+  border-radius: 10px;
+}
+
+.illustrationContainer {
+  /* The section for your image/logo */
+  width: 50%;
+  height: 550px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  /* Styling for the logo image */
+  width: 100%;
+  height: 450px;
+  object-fit: contain;
+}
+
+.formContainer {
+  /* The actual <form> element */
+  width: 50%;
+  height: 550px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.inputFieldContainer {
+  display: flex;
+  align-items: center;
+  height: 45px; /* Slightly taller for better UX */
+  width: 100%;
+  border: 1px solid #565454; /* Keep the border HERE */
+  border-radius: 8px;
+  padding: 0 10px; /* This gives space so text/icons don't touch the border */
+  gap: 10px; /* Space between icon and text */
+}
+
+.inputFieldContainer input {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 16px;
+  border: none; /* REMOVE border here so it doesn't fight the parent */
+  background: transparent; /* Ensures it looks like one clean box */
+}
+
+.inputFieldContainer img {
+  /* FIX: Remove position: absolute */
+  /* Absolute takes the icon out of the "line", making it overlap text */
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+.agreementContainer {
+  /* Wrapper for the checkbox section */
+}
+
+/* Sign-up.module.css */
+
+.checkboxLabel input {
+  margin-right: 10px; /* Pushes the span text away from the checkbox */
+}
+.btnRegisterContainer {
+  /* Wrapper for the button */
+  width: 100%;
+  height: 40px;
+}
+
+.registerButton {
+  /* The actual button styling */
+  cursor: pointer;
+  border: none;
+  width: 20%;
+  height: 40px;
+  color: #ffff;
+
+}
+
+/* ... Your existing Desktop CSS above ... */
+
+/* ... Your existing Desktop CSS ... */
+
+@media (max-width: 600px) {
+  .signUpContainer {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: auto;  <-- Keeping your 550px from above, but you may need to change this later */
+  }
+
+  .illustrationContainer {
+    display: none;
+  }
+
+  .image {
+    /* Empty class */
+  }
+
+  .formContainer {
+    /* Empty class */
+    width: 80%;
+  }
+
+  .inputFieldContainer {
+    /* Empty class */
+  }
+
+  .inputFieldContainer input {
+    /* Empty class */
+  }
+
+  .inputFieldContainer img {
+    /* Empty class */
+  }
+
+  .agreementContainer {
+    /* Empty class */
+  }
+
+  .checkboxLabel {
+    /* Empty class */
+  }
+
+  .btnRegisterContainer {
+    /* Empty class */
+  }
+
+  .registerButton {
+    /* Empty class */
+  }
+}

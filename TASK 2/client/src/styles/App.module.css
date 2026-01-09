@@ -1,0 +1,43 @@
+/* Remove height/width from * - This is what messes up the UI */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Crucial for layout */
+  font-family: "Montserrat", sans-serif;
+  color: #212427;
+}
+
+.appWrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Changed from absolute */
+  background-color: #ff6767; /* Your Salmon Color */
+  overflow: hidden;
+}
+
+.IllustrationImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Sits above salmon, below form */
+  background-image: url("../assets/images/istockphoto-1483863447-2048x2048 1.png");
+  background-size: cover;
+  background-position: center;
+  background-position: center;
+  opacity: 0.5; /* This lets the salmon color show through the image */
+}
+
+.contentOverlay {
+  position: relative;
+  z-index: 2; /* Sits on top of the image */
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

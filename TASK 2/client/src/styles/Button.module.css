@@ -1,0 +1,7 @@
+.BaseStyling{
+    background-color: #FF9090;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

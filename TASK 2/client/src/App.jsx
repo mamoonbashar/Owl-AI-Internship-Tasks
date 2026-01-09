@@ -1,14 +1,15 @@
 
-import './App.css'
-
+import SignUpForm from "./components/Signup-Form";
+import Styles from "./styles/App.module.css";
 function App() {
-  
-
   return (
-    <>
-     <h1>My name is maximus </h1>
-    </>
-  )
+    <div className={Styles.appWrapper}>
+      <div className={Styles.IllustrationImage}></div>
+      <main className={Styles.contentOverlay}>
+        <SignUpForm />
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
