@@ -18,10 +18,10 @@ export async function createTask(req, res) {
     userID,
   });
   await createTask.populate("user", "Username");
-  res.json({
+  res.status(200).json({
     message: "Task Created Successfully",
     success: true,
-    createTask,
+    task:createTask,
   });
 }
 

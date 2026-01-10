@@ -1,0 +1,203 @@
+.settingsWrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px;
+  background-color: #f9fafb;
+  overflow-y: auto;
+}
+
+.settingsCard {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.cardHeader h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.backButton {
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.backButton:hover {
+  background-color: #f3f4f6;
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.profileAvatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.profileAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileDetails h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.profileDetails p {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.accountForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputGroup label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.inputField {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #1f2937;
+  background-color: #ffffff;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #f56565;
+  box-shadow: 0 0 0 3px rgba(245, 101, 101, 0.08);
+}
+
+.inputField::placeholder {
+  color: #9ca3af;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btnUpdate,
+.btnPassword {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.btnUpdate {
+  background-color: #f56565;
+  color: white;
+}
+
+.btnUpdate:hover {
+  background-color: #e53e3e;
+}
+
+.btnPassword {
+  background-color: #f97316;
+  color: white;
+}
+
+.btnPassword:hover {
+  background-color: #ea580c;
+}
+
+.btnUpdate:active,
+.btnPassword:active {
+  transform: scale(0.98);
+}
+
+/* Scrollbar */
+.settingsWrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.settingsWrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.settingsWrapper::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.settingsWrapper::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .settingsWrapper {
+    padding: 20px;
+  }
+
+  .settingsCard {
+    padding: 24px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+  }
+
+  .btnUpdate,
+  .btnPassword {
+    width: 100%;
+  }
+}

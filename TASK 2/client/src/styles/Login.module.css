@@ -1,0 +1,142 @@
+.signUpContainer {
+  display: flex;
+  background-color: #ffffff;
+  width: 80%;
+  max-width: 1000px;
+  height: 550px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.formContainer {
+  width: 50%;
+  padding: 10px;
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 30px;
+  color: #212427;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  height: 400px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.inputFieldContainer {
+  display: flex;
+  align-items: center;
+  border: 1px solid #c4c4c4;
+  border-radius: 8px;
+  padding: 10px 15px;
+  gap: 15px;
+  width: 100%;
+}
+
+.inputFieldContainer input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+}
+
+.rememberMeContainer {
+  margin: 5px 0;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #565454;
+  cursor: pointer;
+}
+.btnRegisterContainer {
+  /* Wrapper for the button */
+  width: 100%;
+  height: 40px;
+}
+
+.LoginButton {
+  cursor: pointer;
+  border: none;
+  width: 20%;
+  height: 40px;
+  color: #ffff;
+}
+
+.socialLoginSection {
+  margin-top: 40px;
+}
+
+.socialLoginSection p {
+  font-size: 14px;
+  color: #212427;
+  margin-bottom: 10px;
+}
+
+.socialIcons {
+  display: flex;
+  gap: 15px;
+}
+
+.socialIcons img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.footerText {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #212427;
+}
+
+.linkText {
+  color: #4da3ff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.illustrationContainer {
+  width: 50%;
+  background-color: #ffffff;
+  /* border-left: 1px solid #f0f0f0; */
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.illustrationContainer img {
+  width: 100%;
+}
+
+/* Media Query for Mobile */
+@media (max-width: 768px) {
+  .signUpContainer {
+    flex-direction: column;
+    height: auto;
+    width: 95%;
+  }
+  .formContainer,
+  .illustrationContainer {
+    width: 100%;
+  }
+  .illustrationContainer {
+    display: none;
+  }
+}
