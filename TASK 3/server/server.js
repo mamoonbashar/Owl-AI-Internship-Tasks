@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import ChatModel from "./models/chat.model"; // Ensure path is correct
+import ChatModel from "./models/chat.model.js"; // Ensure path is correct
 
 dotenv.config();
 
@@ -39,30 +39,25 @@ io.on("connection", (socket) => {
   });
 
   // MESSAGE LOGIC (Room Specific)
-  socket.on("message", async (data) => {
-    const { room, name, message } = data;
+ 
+socket.on("message", async (data) => {
+  // Pull sender and text directly from the frontend data
+  const { room, sender, text } = data;
 
-    const messageData = {
-      sender: name,
-      text: message,
+  try {
+    const savedChat = await ChatModel.create({
+      room: room,
+      sender: sender,
+      text: text,
       timestamp: new Date(),
-    };
+    });
 
-    try {
-      // Save to MongoDB
-      await ChatModel.create({
-        room: room, // Added room field to your schema
-        sender: name,
-        message: message,
-        timestamp: new Date(),
-      });
-
-      // Emit ONLY to the specific room
-      io.to(room).emit("chat-message", data);
-    } catch (err) {
-      console.error("Error saving chat:", err.message);
-    }
-  });
+    // Send the SAME data back to everyone in the room
+    io.to(room).emit("chat-message", data);
+  } catch (err) {
+    console.error("Error saving chat:", err.message);
+  }
+});
 
   socket.on("feedback", (data) => {
     socket.to(data.room).emit("feedback", data);
