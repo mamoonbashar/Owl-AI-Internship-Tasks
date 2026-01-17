@@ -1,0 +1,69 @@
+:root {
+  /* The only property allowed as per your instruction */
+  --flex: flex;
+  --center-all: center;
+  --Hleft: flex-start;
+  --Hright: flex-end;
+  --dir-col: column;
+  --dir-row: row;
+  --Vleft: start;
+  --Vright: end;
+  --Grid: grid;
+  --gap-md: 20px;
+  --gap-sm: 10px;
+  --wireframe-border:1px solid lightgray;
+
+}
+
+/* Base reset to see the boxes properly */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  display: grid;
+
+}
+
+.MasterContainer {
+  border: var(--wireframe-border);
+}
+
+.HeadingContainer {
+  border: var(--wireframe-border);
+}
+
+.MainContent {
+  border: var(--wireframe-border);
+}
+
+.AppHeadingBox {
+  border: var(--wireframe-border);
+}
+
+.UplaodImageContainer {
+  border: var(--wireframe-border);
+}
+
+.UplaodImageBtnContainer {
+  border: var(--wireframe-border);
+}
+
+.UplaodImageBtn {
+  border: var(--wireframe-border);
+}
+
+.fileDescCotainer {
+  border: var(--wireframe-border);
+}
+
+.ImageResultContainer {
+  border: var(--wireframe-border);
+}
+
+.ImageInfoContainers {
+  border: var(--wireframe-border);
+}
+
+.ImageHeadingAndResultContainer {
+  border: var(--wireframe-border);
+}
