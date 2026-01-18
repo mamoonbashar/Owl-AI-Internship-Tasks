@@ -11,8 +11,7 @@
   --Grid: grid;
   --gap-md: 20px;
   --gap-sm: 10px;
-  --wireframe-border:1px solid lightgray;
-
+  --wireframe-border: 1px solid lightgray;
 }
 
 /* Base reset to see the boxes properly */
@@ -20,50 +19,195 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  display: grid;
-
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+}
+body {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: var(--center-all);
+  align-items: var(--center-all);
+  background-color: black;
+  color: whitesmoke;
+}
+.backgroundIllustrationsContainer {
+  height: 95vh;
+  width: 100vw;
+  display: var(--flex);
+  position: absolute;
+  border: var(--wireframe-border);
+  justify-content: space-evenly;
+  flex-direction: row;
+  z-index: 0;
+}
+.backgroundIllustrationsContainer img:nth-child(1) {
+  height: 300px; /* align-self: flex-start; */
+  position: relative;
+  bottom: 25px;
+  left: 25px;
+  object-fit: contain;
+}
+.backgroundIllustrationsContainer img:nth-child(2) {
+  height: 500px;
+  left: 48px;
+  position: relative;
+  top: 95px;
+  object-fit: contain;
+}
+.glass-card {
+  width: 240px;
+  height: 360px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 20px 10px rgba(255, 255, 255, 1); */
+  position: relative;
+  overflow: hidden;
 }
 
+.glass-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+.glass-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
 .MasterContainer {
-  border: var(--wireframe-border);
+  height: 600px;
+  width: 45%;
+  overflow: hidden;
+  border-radius: 30px;
+  display: var(--Grid);
 }
 
 .HeadingContainer {
-  border: var(--wireframe-border);
+  /* border: var(--wireframe-border); */
+  height: 70px;
+  width: 100%;
+  display: var(--Grid);
+  justify-content: var(--Hleft);
+  align-items: var(--center-all);
+  padding: 10px;
 }
 
 .MainContent {
-  border: var(--wireframe-border);
+  /* border: var(--wireframe-border); */
+  height: 520px;
+  width: 100%;
+  display: var(--Grid);
+  overflow: hidden;
+  grid-template-columns: 1fr;
+  justify-content: var(--center-all);
+  /* align-items: var(--center-all); */
 }
 
 .AppHeadingBox {
   border: var(--wireframe-border);
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: var(--center-all);
+  padding: 16px;
 }
 
 .UplaodImageContainer {
   border: var(--wireframe-border);
+  height: 200px;
+  width: 70%;
+  border-radius: 10px;
+  justify-self: var(--center-all);
+  display: var(--flex);
+  overflow: hidden;
 }
 
 .UplaodImageBtnContainer {
   border: var(--wireframe-border);
+  justify-self: var(--center-all);
+  width: 90%;
+  height: 50px;
+  display: var(--flex);
+  justify-content: var(--center-all);
+  align-items: var(--center-all);
 }
 
 .UplaodImageBtn {
   border: var(--wireframe-border);
+  width: 50%;
+  height: 40px;
+  border-radius: 8px;
 }
 
 .fileDescCotainer {
   border: var(--wireframe-border);
+  width: 50%;
+  justify-self: var(--center-all);
+  height: 20px;
 }
 
 .ImageResultContainer {
   border: var(--wireframe-border);
+  height: 180px;
+  display: var(--flex);
+  width: 100%;
+  flex-direction: var(--dir-col);
+  align-items: var(--center-all);
+  justify-content: var(--center-all);
+  gap: 5px;
 }
 
 .ImageInfoContainers {
   border: var(--wireframe-border);
+  height: 35px;
+  width: 100%;
+  display: var(--flex);
+  flex-direction: var(--dir-row);
+  align-items: var(--center-all);
+  justify-content: space-between;
 }
 
 .ImageHeadingAndResultContainer {
   border: var(--wireframe-border);
+  width: 45%;
+  height: 30px;
+  padding: 5px;
 }
