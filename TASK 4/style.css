@@ -11,7 +11,7 @@
   --Grid: grid;
   --gap-md: 20px;
   --gap-sm: 10px;
-  --wireframe-border: 1px solid lightgray;
+  /* --wireframe-border: 1px solid lightgray; */
 }
 
 /* Base reset to see the boxes properly */
@@ -32,29 +32,40 @@
     "Helvetica Neue",
     sans-serif;
 }
+html,
 body {
-  height: 100vh;
-  width: 100vw;
+  /* Set both to ensure the coordinate system is consistent */
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevents side-scrolling */
+}
+
+body {
+  min-height: 100vh; /* Use min-height so it can grow if content is tall */
   display: flex;
   justify-content: var(--center-all);
   align-items: var(--center-all);
   background-color: black;
-  color: whitesmoke;
+  position: relative; /* Crucial for absolute background illustrations */
 }
 .backgroundIllustrationsContainer {
-  height: 95vh;
-  width: 100vw;
-  display: var(--flex);
-  position: absolute;
-  border: var(--wireframe-border);
-  justify-content: space-evenly;
-  flex-direction: row;
-  z-index: 0;
+  position: fixed; /* Fixed stays put even if you scroll */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Forces it behind the GlassCard */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  pointer-events: none; /* Allows you to click "through" it to buttons */
 }
 .backgroundIllustrationsContainer img:nth-child(1) {
   height: 300px; /* align-self: flex-start; */
   position: relative;
-  bottom: 25px;
+  bottom: 100px;
   left: 25px;
   object-fit: contain;
 }
@@ -127,6 +138,7 @@ body {
   justify-content: var(--Hleft);
   align-items: var(--center-all);
   padding: 10px;
+  color: whitesmoke;
 }
 
 .MainContent {
@@ -145,11 +157,28 @@ body {
   width: 100%;
   height: 70px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: var(--center-all);
   align-items: var(--center-all);
   padding: 16px;
 }
+.AppHeadingBox h1 {
+  background: linear-gradient(
+    90deg,
+    #d96570 0%,
+    #f4af5f 30%,
+    /* Added missing comma here */ #4285f4 60%,
+    #9b72c8 100% /* Removed trailing comma */
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 
+  /* ADD THIS LINE: Creates a dark glow that makes the colors pop */
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
+
+  font-weight: 800;
+  font-size: 2rem;
+}
 .UplaodImageContainer {
   border: var(--wireframe-border);
   height: 200px;
@@ -158,6 +187,11 @@ body {
   justify-self: var(--center-all);
   display: var(--flex);
   overflow: hidden;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  border: 1px solid #dd1ddd;
 }
 
 .UplaodImageBtnContainer {
@@ -177,11 +211,41 @@ body {
   border-radius: 8px;
 }
 
+.UplaodImageBtn {
+  background-image: linear-gradient(
+    to right,
+    #ff00cc 0%,
+    #333399 51%,
+    #ff00cc 100%
+  );
+}
+
+.UplaodImageBtn {
+  /* margin: 10px; */
+  /* padding: 15px 45px; */
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+  font-weight: bold;
+}
+.UplaodImageBtn:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
 .fileDescCotainer {
   border: var(--wireframe-border);
   width: 50%;
   justify-self: var(--center-all);
   height: 20px;
+  text-align: center;
+  font-weight: 600;
 }
 
 .ImageResultContainer {
@@ -193,6 +257,7 @@ body {
   align-items: var(--center-all);
   justify-content: var(--center-all);
   gap: 5px;
+  padding: 10px;
 }
 
 .ImageInfoContainers {
@@ -210,4 +275,138 @@ body {
   width: 45%;
   height: 30px;
   padding: 5px;
+}
+.finalResult {
+  width: 100%;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 600;
+}
+.finalResult p {
+  background: linear-gradient(
+    90deg,
+    #4285f4 0%,
+    #9b72cb 30%,
+    #d96570 60%,
+    #f4af5f 100%
+  );
+  /* For text gradients, add these lines: */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.finalResult p {
+  animation: jumpShiver 2s ease-in-out 3;
+}
+@keyframes jumpShiver {
+  0%,
+  100% {
+    transform: translateY(0); /* Original position */
+  }
+  50% {
+    transform: translateY(-15px); /* Jump up by 15px */
+  }
+}
+.ImageHeadingAndResultContainer {
+  background-image: linear-gradient(
+    to right,
+    #da22ff 0%,
+    #9733ee 51%,
+    #da22ff 100%
+  );
+}
+.ImageHeadingAndResultContainer {
+  /* margin: 10px; */
+  /* padding: 15px 45px; */
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  /* box-shadow: 0 0 20px #eee; */
+  border-radius: 5px;
+  display: var(--flex);
+  font-weight: bolder;
+  font-size: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.ImageHeadingAndResultContainer:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Responsiveness */
+/* Responsiveness */
+@media (max-width: 700px) {
+  body {
+    /* Tip: You might want to change height to auto for scrolling */
+  }
+
+  .backgroundIllustrationsContainer {
+    /* Tip: Consider hiding or scaling down the 3D shapes */
+    width: 98%;
+    height: 100%;
+  }
+
+  .backgroundIllustrationsContainer img:nth-child(1) {
+    height: 200px;
+    bottom: 200px;
+  }
+
+  .backgroundIllustrationsContainer img:nth-child(2) {
+    height: 250px;
+    top: 200px;
+  }
+
+  .MasterContainer {
+    /* Tip: Usually width goes to 90% or 95% on mobile */
+  }
+
+  .glass-card {
+    width: 80%;
+  }
+
+  .HeadingContainer {
+  }
+
+  .MainContent {
+  }
+
+  .AppHeadingBox {
+  }
+
+  .AppHeadingBox h1 {
+    /* Tip: Lower the font-size so it doesn't wrap awkwardly */
+  }
+
+  .UplaodImageContainer {
+  }
+
+  .UplaodImageBtnContainer {
+  }
+
+  .UplaodImageBtn {
+  }
+
+  .fileDescCotainer {
+  }
+
+  .ImageResultContainer {
+    /* Tip: Check if the height: 180px is too small for stacked text */
+  }
+
+  .ImageInfoContainers {
+    /* Tip: Consider flex-direction: column if it gets too tight */
+  }
+
+  .ImageHeadingAndResultContainer {
+  }
+
+  .finalResult {
+  }
+
+  .finalResult p {
+  }
 }
