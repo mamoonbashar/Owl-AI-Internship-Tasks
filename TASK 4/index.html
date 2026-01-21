@@ -24,12 +24,22 @@
         <section class="AppHeadingBox">
           <h1>AI Image Recognition</h1>
         </section>
-        <section class="UplaodImageContainer">Uplaod Image</section>
+        <section class="UplaodImageContainer">
+          <img src="" id="ShowImage" alt="Image" />
+          <label for="ImageInput"
+            >Click here to Upload or Drag and Drop image</label
+          >
+          <input
+            type="file"
+            id="ImageInput"
+            accept="image/jpeg,image/png,image/jpg"
+          />
+        </section>
         <section class="UplaodImageBtnContainer">
           <button class="UplaodImageBtn">Upload Image</button>
         </section>
         <section class="fileDescCotainer">
-          <p>Choose File No file is choosen</p>
+          <button class="removeImageBtn">Remove Image</button>
         </section>
         <section class="ImageResultContainer">
           <section class="ImageInfoContainers">
@@ -62,6 +72,6 @@
         </section>
       </section>
     </section>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
   </body>
 </html>
