@@ -243,9 +243,12 @@ body {
   border: var(--wireframe-border);
   width: 50%;
   justify-self: var(--center-all);
-  height: 20px;
+  height: 19px;
   text-align: center;
-  font-weight: 600;
+  font-weight: bolder;
+  display: flex;
+  justify-content: var(--center-all);
+  /* flex-wrap: wrap; */
 }
 
 .ImageResultContainer {
@@ -295,7 +298,7 @@ body {
   -webkit-text-fill-color: transparent;
 }
 .finalResult p {
-  animation: jumpShiver 2s ease-in-out 3;
+  /* animation: jumpShiver 2s ease-in-out 3; */
 }
 @keyframes jumpShiver {
   0%,
@@ -344,7 +347,6 @@ label {
   display: var(--flex);
   justify-content: var(--center-all);
   align-items: var(--center-all);
-  
 }
 #ShowImage {
   width: 100%;
@@ -356,14 +358,22 @@ label {
 #ImageInput {
   display: none;
 }
-.removeImageBtn{
+.removeImageBtn {
   width: 50%;
   height: 25px;
+  font-size: 20px;
   border-radius: 5px;
   border: none;
-  background: linear-gradient(90deg, #d96570 0%, #f4af5f 30%, /* Added missing comma here */ #4285f4 60%, #9b72c8 100% /* Removed trailing comma */);
+  background: linear-gradient(
+    90deg,
+    #d96570 0%,
+    #f4af5f 30%,
+     #4285f4 60%,
+    #9b72c8 100% 
+  );
   -webkit-background-clip: text;
   background-clip: text;
+  font-weight: bolder;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
 }
@@ -395,7 +405,7 @@ label {
   }
 
   .glass-card {
-    width: 80%;
+    width: 84%;
   }
 
   .HeadingContainer {
@@ -421,17 +431,28 @@ label {
   }
 
   .fileDescCotainer {
-  }
+  width: 100%;
+  height: auto;
+ 
+}
 
   .ImageResultContainer {
     /* Tip: Check if the height: 180px is too small for stacked text */
+    width: 100%;
+    display: flex;
   }
 
   .ImageInfoContainers {
     /* Tip: Consider flex-direction: column if it gets too tight */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: auto;
   }
 
   .ImageHeadingAndResultContainer {
+    width: 70%;
   }
 
   .finalResult {

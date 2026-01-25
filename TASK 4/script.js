@@ -35,10 +35,7 @@ dropContainer.addEventListener("drop", function (e) {
 
 const removeImgBtn = document
   .querySelector(".removeImageBtn")
-  .addEventListener("click", function () {
-    showImage.style.display = "none";
-    getLabel.style.display = "flex";
-  });
+  .addEventListener("click", removeImage);
 
 // AI Model CODE
 
@@ -52,18 +49,36 @@ const objectdetect = await ObjectDetector.createFromOptions(vision, {
     delegate: "GPU",
   },
   scoreThreshold: 0.5,
+  maxResults: 3,
   runningMode: "IMAGE",
 });
 
+const uploadBtn = document.querySelector(".UplaodImageBtn");
+const finalResult = document.querySelector(".finalResult p");
+const getInfo = document.querySelector(".objectName");
+const getConfidence = document.querySelector(".objectConfidence");
+uploadBtn.addEventListener("click", analyze);
 
-
-showImage.onload = async () => {
-  const find = await objectdetect.detect(showImage);
+function analyze() {
+  const find = objectdetect.detect(showImage);
   console.log(find);
   find.detections.forEach((result, index) => {
     let category = result.categories[0];
     let name = category.categoryName;
+    console.log(">>>>>>>>>".category, name);
     const confidence = Math.round(category.score * 100);
-    console.log(name, confidence);
+    finalResult.innerText = name;
+    finalResult.style.animation = "jumpShiver 2s ease-in-out 3";
+
+    getInfo.innerText = name;
+    getConfidence.innerText = "Confidence" + " " + confidence + "%"
   });
-};
+}
+
+function removeImage() {
+  showImage.style.display = "none";
+  getLabel.style.display = "flex";
+  getInfo.innerText = "Object name in image";
+  getConfidence.innerText = "Accuracy percentage";
+  finalResult.style.display = "none";
+}
