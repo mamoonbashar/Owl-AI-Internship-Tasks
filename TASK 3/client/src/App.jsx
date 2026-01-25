@@ -17,7 +17,10 @@ function App() {
   const [typingStatus, setTypingStatus] = useState("");
 
   useEffect(() => {
-    socket.on("number-of-clients", (count) => setOnlineCount(count));
+   socket.on("number-of-clients", (count) => setOnlineCount(count));
+
+ 
+   socket.emit("request-initial-count");
 
     socket.on("chat-message", (data) => {
       setMessages((prev) => [...prev, data]);

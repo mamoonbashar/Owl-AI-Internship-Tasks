@@ -6,7 +6,7 @@ const Sidebar = ({ room, setRoom, onlineCount, username }) => {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <h3>ToDoHQ Chat</h3>
+        <h3>Real Time  Chat</h3>
         <p className="status">
           <span className="dot"></span> {onlineCount} Online
         </p>

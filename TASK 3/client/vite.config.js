@@ -6,10 +6,18 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      // This redirects all socket calls from 5173 to 5000
       "/socket.io": {
         target: "http://localhost:5000",
-        ws: true, // Enables WebSocket support
+        ws: true,
+      },
+    },
+  },
+  // ADD THIS so your preview mode also knows where the server is
+  preview: {
+    proxy: {
+      "/socket.io": {
+        target: "http://localhost:5000",
+        ws: true,
       },
     },
   },

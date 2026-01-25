@@ -187,3 +187,14 @@
   border-radius: 8px;
   cursor: pointer;
 }
+/* Media Queries for devices below 700px */
+@media screen and (max-width: 700px) {
+  
+
+  .leftSideMessage,
+  .rightSideMessage {
+   width: 80%; 
+  }
+
+  
+}

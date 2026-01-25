@@ -15,7 +15,8 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // Vite default port
+    // Add the preview port to the array
+    origin: ["http://localhost:5173", "http://localhost:4173"],
     methods: ["GET", "POST"],
   },
 });
@@ -30,34 +31,46 @@ let onlineUsers = new Set();
 
 io.on("connection", (socket) => {
   onlineUsers.add(socket.id);
-  io.emit("number-of-clients", onlineUsers.size);
+  // Listen for the count
 
-  // JOIN ROOM LOGIC
-  socket.on("join_room", (room) => {
-    socket.join(room);
-    console.log(`User ${socket.id} joined room: ${room}`);
-  });
 
-  // MESSAGE LOGIC (Room Specific)
+
  
-socket.on("message", async (data) => {
-  // Pull sender and text directly from the frontend data
-  const { room, sender, text } = data;
+    io.emit("number-of-clients", onlineUsers.size);
 
-  try {
-    const savedChat = await ChatModel.create({
-      room: room,
-      sender: sender,
-      text: text,
-      timestamp: new Date(),
+    // --- ADD THIS BLOCK HERE ---
+    socket.on("request-initial-count", () => {
+      socket.emit("number-of-clients", onlineUsers.size);
+    });
+    // ---------------------------
+
+    // JOIN ROOM LOGIC
+    socket.on("join_room", (room) => {
+      socket.join(room);
+      console.log(`User ${socket.id} joined room: ${room}`);
     });
 
-    // Send the SAME data back to everyone in the room
-    io.to(room).emit("chat-message", data);
-  } catch (err) {
-    console.error("Error saving chat:", err.message);
-  }
-});
+
+  // MESSAGE LOGIC (Room Specific)
+
+  socket.on("message", async (data) => {
+    // Pull sender and text directly from the frontend data
+    const { room, sender, text } = data;
+
+    try {
+      const savedChat = await ChatModel.create({
+        room: room,
+        sender: sender,
+        text: text,
+        timestamp: new Date(),
+      });
+
+      // Send the SAME data back to everyone in the room
+      io.to(room).emit("chat-message", data);
+    } catch (err) {
+      console.error("Error saving chat:", err.message);
+    }
+  });
 
   socket.on("feedback", (data) => {
     socket.to(data.room).emit("feedback", data);
@@ -69,5 +82,6 @@ socket.on("message", async (data) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => console.log(`🚀 Server on port ${PORT}`));
