@@ -23,7 +23,11 @@ const SignInForm = () => {
       const { status } = await API.post("/api/user/login", FormData);
       if (status === 200) navigate("/home");
     } catch (err) {
-      setErr(err.response?.data?.Error || "Databse connection Failed");
+    const errorMessage =
+      err.response?.data?.message ||
+      err.response?.data?.Error ||
+      "Database connection Failed";
+    setErr(errorMessage);
     }
   };
   return (
