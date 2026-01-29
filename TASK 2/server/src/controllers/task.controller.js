@@ -12,39 +12,39 @@ export async function createTask(req, res) {
       description,
       status: status || "pending",
       category: category || "others",
-      dueDate,
+      dueDate: dueDate || null,
       priority: priority || "Low",
     });
+
+    // ✅ CRITICAL: Populate user so frontend doesn't break
+    await newTask.populate("user", "username");
 
     res.status(201).json(newTask);
   } catch (error) {
     res.status(500).json({ Error: error.message });
   }
 }
+
 export async function getTask(req, res) {
- try {
-   if (!req.user) {
-     return res.status(401).json({ message: "Unauthorized" });
-   }
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
 
-   const userID = req.user._id;
-   const page = parseInt(req.query.page) || 1;
-   const limit = parseInt(req.query.limit) || 10;
-   const skip = (page - 1) * limit;
+    const userID = req.user._id;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-   // 2. Filter by user: IMPORTANT so users don't see other people's tasks
-   const AllTasks = await TaskModel.find({ user: userID })
-     .skip(skip)
-     .limit(limit)
-     .sort({ createdAt: -1 });
+    const AllTasks = await TaskModel.find({ user: userID })
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
 
-   // Note: If you want the frontend map to work directly,
-   // it's best to return the array directly or ensure the frontend
-   // points to the correct property.
-   res.status(200).json(AllTasks);
- } catch (error) {
-   res.status(500).json({ Error: error.message });
- }
+    res.status(200).json(AllTasks);
+  } catch (error) {
+    res.status(500).json({ Error: error.message });
+  }
 }
 
 export async function updateTask(req, res) {
@@ -55,14 +55,30 @@ export async function updateTask(req, res) {
     const findPost = await TaskModel.findById(paramID);
     if (!findPost) return res.status(404).json({ message: "Post Not Found" });
 
-    // FIX: Convert both to strings to ensure they match
     if (findPost.user.toString() !== userID.toString()) {
       return res.status(403).json({ message: "Not authorized" });
     }
 
+    // ✅ Only allow specific fields to be updated
+    const allowedFields = [
+      "title",
+      "description",
+      "status",
+      "category",
+      "dueDate",
+      "priority",
+    ];
+    const updateData = {};
+
+    for (let key of allowedFields) {
+      if (req.body[key] !== undefined) {
+        updateData[key] = req.body[key];
+      }
+    }
+
     const newData = await TaskModel.findByIdAndUpdate(
       paramID,
-      { $set: req.body }, // Directly set the body (ensure frontend uses correct keys)
+      { $set: updateData },
       { new: true, runValidators: true },
     );
 
@@ -82,9 +98,9 @@ export async function deleteTask(req, res) {
     const findPost = await TaskModel.findById(postID);
     if (!findPost) return res.status(404).json({ message: "Post Not Found" });
 
-    // FIX: String comparison
     if (findPost.user.toString() !== userID.toString()) {
       return res.status(403).json({ message: "Unauthorized" });
+
     }
 
     await TaskModel.findByIdAndDelete(postID);

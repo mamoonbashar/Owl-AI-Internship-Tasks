@@ -2,22 +2,24 @@ import React, { useState, useEffect } from "react";
 import styles from "../styles/EditTask.module.css";
 
 const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
-  // 1. Initialize state
   const [formData, setFormData] = useState({
     title: "",
-    date: "",
+    dueDate: "",
     priority: "Low",
+    status: "pending",
+    category: "others",
     description: "",
   });
 
-  // 2. IMPORTANT: Update form when 'task' prop changes or modal opens
+  // ✅ Update form when task changes or modal opens
   useEffect(() => {
     if (task && isOpen) {
       setFormData({
         title: task.title || "",
-        // Format date to YYYY-MM-DD so the HTML input can read it
-        date: task.dueDate ? task.dueDate.split("T")[0] : "",
+        dueDate: task.dueDate || "",
         priority: task.priority || "Low",
+        status: task.status || "pending",
+        category: task.category || "others",
         description: task.description || "",
       });
     }
@@ -30,7 +32,6 @@ const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 3. Send data back to Home.jsx
     onSave(formData);
   };
 
@@ -47,6 +48,7 @@ const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
+          {/* Title */}
           <div className={styles.formGroup}>
             <label>Title</label>
             <input
@@ -59,18 +61,34 @@ const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
             />
           </div>
 
+          {/* Category */}
           <div className={styles.formGroup}>
-            <label>Date</label>
-            <input
-              type="date"
-              name="date"
-              value={formData.date}
+            <label>Category</label>
+            <select
+              name="category"
+              value={formData.category}
               onChange={handleChange}
               className={styles.input}
-              required
+            >
+              <option value="Work">Work</option>
+              <option value="Home">Home</option>
+              <option value="others">Others</option>
+            </select>
+          </div>
+
+          {/* Due Date */}
+          <div className={styles.formGroup}>
+            <label>Due Date</label>
+            <input
+              type="date"
+              name="dueDate"
+              value={formData.dueDate}
+              onChange={handleChange}
+              className={styles.input}
             />
           </div>
 
+          {/* Priority */}
           <div className={styles.formGroup}>
             <label>Priority</label>
             <div className={styles.radioGroup}>
@@ -89,6 +107,44 @@ const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
             </div>
           </div>
 
+          {/* Status */}
+          <div className={styles.formGroup}>
+            <label>Status</label>
+            <div className={styles.radioGroup}>
+              <label className={styles.radioLabel}>
+                <input
+                  type="radio"
+                  name="status"
+                  value="pending"
+                  checked={formData.status === "pending"}
+                  onChange={handleChange}
+                />
+                <span>Pending</span>
+              </label>
+              <label className={styles.radioLabel}>
+                <input
+                  type="radio"
+                  name="status"
+                  value="progress"
+                  checked={formData.status === "progress"}
+                  onChange={handleChange}
+                />
+                <span>In Progress</span>
+              </label>
+              <label className={styles.radioLabel}>
+                <input
+                  type="radio"
+                  name="status"
+                  value="completed"
+                  checked={formData.status === "completed"}
+                  onChange={handleChange}
+                />
+                <span>Completed</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Description */}
           <div className={styles.formGroup}>
             <label>Description</label>
             <textarea

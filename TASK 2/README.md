@@ -1,33 +1,80 @@
-Task 2: Full Stack To-Do Application — [Development Phase]
-🏗 Project Status: 🟠 In Progress
-This project is currently in the Backend Development Phase. I am building the "Headless API" and the database architecture before moving to the React frontend.
+# 🦉 Owl TODO: Advanced Task Management System
 
-🎯 Current Goal
-Establishing a secure and scalable server-side foundation using the MERN stack to manage task data and user accounts.
+**Owl TODO** is a sophisticated, full-stack productivity application developed as part of **Task 4: Advanced Owl AI Challenge**. It moves beyond simple list-making by implementing a complete MERN architecture, featuring deep database integration, responsive state management, and a focus on persistent data integrity.
 
-🛠 Tech Stack (In Use)
-Backend: Node.js & Express.js
+---
 
-Database: MongoDB Atlas (NoSQL)
+## ⚡ Features
 
-ODM: Mongoose
+* **Persistent Data Storage:** Full integration with MongoDB Atlas ensures your tasks are saved securely and survive page refreshes.
+* **Dynamic Task Lifecycle:**
+* **Create:** Quick-add modal with category and status selection.
+* **Edit:** Reusable modal system that auto-populates with current task data using `useEffect` hooks.
+* **Delete:** One-click removal with immediate UI synchronization.
 
-📂 Backend Architecture (Current)
-I have initialized the senior-level folder structure as requested in the internship instructions:
 
-src/config/db.js: Establishing the connection to MongoDB Atlas.
+* **Status & Due Date Tracking:** Monitor progress via `Pending`, `In Progress`, or `Completed` states, and never miss a deadline with the integrated Date-Picker.
+* **Adaptive Dual-Pane UI:** A desktop-first layout featuring a scannable task list and a rich-text detail view, which collapses into a mobile-friendly stack with a hamburger-toggle sidebar.
+* **User Personalization:** Dynamic profile fetching displays the authenticated user's name, email, and avatar throughout the dashboard.
 
-src/models/: Defining the Blueprints for Users and Tasks.
+---
 
-📝 Roadmap & Progress
-[x] Step 1: Project Initialization & .env setup.
+## 🛠️ Tech Stack
 
-[x] Step 2: Database Connection (Config).
+| Component | Technology |
+| --- | --- |
+| **Frontend** | React 18, CSS Modules (Scoped Styling), Axios |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB Atlas, Mongoose ODM |
+| **Authentication** | JWT (JSON Web Tokens) & HTTP-only Cookies |
 
-[x] Step 3: Data Modeling (User & Task Schemas).
+---
 
-[ ] Step 4: API Controllers & Routes (CRUD Logic).
+## 📡 Data Flow & Architecture
 
-[ ] Step 5: Authentication Middleware (JWT).
+The application follows a strict RESTful pattern to ensure the frontend state remains perfectly mirrored with the cloud database:
 
-[ ] Step 6: Frontend Integration (React & Tailwind CSS).
+1. **Request:** The React frontend emits an asynchronous Axios request (GET, POST, PATCH, or DELETE).
+2. **Validation:** The Express backend passes the request through an `isLoggedin` middleware to verify the user's JWT.
+3. **Persistence:** Mongoose validates the data against the `TaskSchema` and updates the MongoDB collection.
+4. **Sync:** The server returns the updated document, and React updates the local `tasks` state, triggering a re-render without a full page reload.
+
+---
+
+## 📂 Project Structure
+
+```text
+├── client/              # React + Vite (Frontend)
+│   ├── src/
+│   │   ├── components/  # Home, EditTaskModal, AddTaskModal
+│   │   ├── styles/      # Scoped CSS Modules for layout isolation
+│   │   └── api/         # Axios instance with base URL config
+└── server/              # Node + Express (Backend)
+    ├── models/          # Task.model.js (Mongoose Schema)
+    ├── controllers/     # Task logic (Create, Update, Delete)
+    └── routes/          # Protected API endpoints
+
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Backend Configuration
+
+```bash
+cd server
+npm install
+# Configure .env with MONGO_URI and JWT_SECRET
+npm run dev
+
+```
+
+### 2. Frontend Configuration
+
+```bash
+cd client
+npm install
+npm run dev
+
+```

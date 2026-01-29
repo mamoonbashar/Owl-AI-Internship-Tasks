@@ -5,8 +5,12 @@ const taskSchema = mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     title: { type: String, required: true, trim: true, maxlength: 50 },
     description: { type: String, required: true, maxlength: 600 },
-    // ADD THIS FIELD
-    dueDate: { type: String },
+    dueDate: { type: String }, // Store as string (YYYY-MM-DD format)
+    priority: {
+      type: String,
+      enum: ["Low", "Moderate", "High"],
+      default: "Low",
+    },
     status: {
       type: String,
       required: true,
@@ -22,4 +26,5 @@ const taskSchema = mongoose.Schema(
   },
   { timestamps: true },
 );
+
 export default mongoose.model("Task", taskSchema);

@@ -414,6 +414,10 @@
     width: 100%;
     max-height: 900px;
   }
+  .detailsMeta {
+    display: flex;
+    flex-direction: column;
+  }
   .sidebar {
     position: fixed;
     top: 0;
