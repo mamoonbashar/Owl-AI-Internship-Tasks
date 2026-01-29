@@ -1,26 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/EditTask.module.css";
 
 const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
+  // 1. Initialize state
   const [formData, setFormData] = useState({
-    title: task?.title || "",
-    date: task?.dueDate || "",
-    priority: task?.priority || "Low",
-    description: task?.fullDescription || "",
+    title: "",
+    date: "",
+    priority: "Low",
+    description: "",
   });
+
+  // 2. IMPORTANT: Update form when 'task' prop changes or modal opens
+  useEffect(() => {
+    if (task && isOpen) {
+      setFormData({
+        title: task.title || "",
+        // Format date to YYYY-MM-DD so the HTML input can read it
+        date: task.dueDate ? task.dueDate.split("T")[0] : "",
+        priority: task.priority || "Low",
+        description: task.description || "",
+      });
+    }
+  }, [task, isOpen]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // 3. Send data back to Home.jsx
     onSave(formData);
-    onClose();
   };
 
   if (!isOpen) return null;
@@ -37,24 +48,21 @@ const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
 
         <form onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
-            <label htmlFor="title">Title</label>
+            <label>Title</label>
             <input
               type="text"
-              id="title"
               name="title"
               value={formData.title}
               onChange={handleChange}
               className={styles.input}
-              placeholder="Enter task title"
               required
             />
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="date">Date</label>
+            <label>Date</label>
             <input
               type="date"
-              id="date"
               name="date"
               value={formData.date}
               onChange={handleChange}
@@ -66,48 +74,28 @@ const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
           <div className={styles.formGroup}>
             <label>Priority</label>
             <div className={styles.radioGroup}>
-              <label className={styles.radioLabel}>
-                <input
-                  type="radio"
-                  name="priority"
-                  value="Low"
-                  checked={formData.priority === "Low"}
-                  onChange={handleChange}
-                />
-                <span>Low</span>
-              </label>
-              <label className={styles.radioLabel}>
-                <input
-                  type="radio"
-                  name="priority"
-                  value="Moderate"
-                  checked={formData.priority === "Moderate"}
-                  onChange={handleChange}
-                />
-                <span>Moderate</span>
-              </label>
-              <label className={styles.radioLabel}>
-                <input
-                  type="radio"
-                  name="priority"
-                  value="High"
-                  checked={formData.priority === "High"}
-                  onChange={handleChange}
-                />
-                <span>High</span>
-              </label>
+              {["Low", "Moderate", "High"].map((p) => (
+                <label key={p} className={styles.radioLabel}>
+                  <input
+                    type="radio"
+                    name="priority"
+                    value={p}
+                    checked={formData.priority === p}
+                    onChange={handleChange}
+                  />
+                  <span>{p}</span>
+                </label>
+              ))}
             </div>
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="description">Task Description</label>
+            <label>Description</label>
             <textarea
-              id="description"
               name="description"
               value={formData.description}
               onChange={handleChange}
               className={styles.textarea}
-              placeholder="Add a more detailed description..."
               rows="6"
               required
             />
@@ -115,7 +103,7 @@ const EditTaskModal = ({ task, isOpen, onClose, onSave }) => {
 
           <div className={styles.formActions}>
             <button type="submit" className={styles.saveButton}>
-              Save
+              Save Changes
             </button>
           </div>
         </form>

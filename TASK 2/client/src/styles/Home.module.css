@@ -6,19 +6,34 @@
 
 .homeContainer {
   display: flex;
-  height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
+  height: 90vh;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, sans-serif;
+  width: 70%;
   background-color: #f9fafb;
+  border-radius: 10px;
 }
 
 /* Sidebar Styles */
 .sidebar {
-  width: 250px;
+  width: 30%;
   background: linear-gradient(180deg, #fc8181 0%, #f56565 100%);
   color: white;
   display: flex;
   flex-direction: column;
+  border-radius: 10px;
+}
+.menuIcon {
+  display: none; /* Hidden by default on desktop */
+  font-size: 24px;
+  cursor: pointer;
+  color: #1f2937;
+  padding: 10px;
+  position: fixed; /* Keep it visible even when scrolling */
+  top: 10px;
+  left: 10px;
+  z-index: 1001; /* Higher than the sidebar */
 }
 
 .logo {
@@ -41,10 +56,11 @@
 }
 
 .userAvatar {
-  width: 48px;
-  height: 48px;
+  width: 20%; /* Takes 20% of parent width */
+  aspect-ratio: 1 / 1; /* Forces height to ALWAYS equal width */
   border-radius: 50%;
   overflow: hidden;
+  background-color: #f56565;
 }
 
 .userAvatar img {
@@ -109,14 +125,15 @@
   display: flex;
   flex: 1;
   overflow: hidden;
+  width: 70%;
 }
 
 /* Task List */
 .taskList {
-  width: 380px;
+  width: 50%;
   background: white;
   border-right: 1px solid #e5e7eb;
-  padding: 24px;
+  padding: 10px;
   overflow-y: auto;
 }
 
@@ -224,9 +241,11 @@
 /* Task Details */
 .taskDetails {
   flex: 1;
-  padding: 32px;
+  padding: 10px;
   overflow-y: auto;
   background-color: #f9fafb;
+  border-radius: 10px;
+  width: 50%;
 }
 
 .detailsContainer {
@@ -390,20 +409,46 @@
 
 @media (max-width: 768px) {
   .homeContainer {
-    flex-direction: column;
+    flex-direction: row;
+    display: flex;
+    width: 100%;
+    max-height: 900px;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    z-index: 1000;
+    transform: translateX(-100%); /* Hide it off-screen by default */
+    transition: transform 0.3s ease-in-out;
+  }
+  .menuIcon {
+    display: block; /* Show icon on mobile */
+  }
+  .sidebarOpen {
+    transform: translateX(0);
+    display: flex !important; /* Force display when open */
   }
 
-  .sidebar {
+  .mainContent {
+    flex-direction: row;
     width: 100%;
     height: auto;
   }
 
-  .mainContent {
-    flex-direction: column;
-  }
-
   .taskList {
-    width: 100%;
-    max-height: 300px;
+    width: 50%;
+    height: auto;
+    overflow-y: auto;
+  }
+  .logo {
+    display: flex;
+    align-self: end;
+  }
+  .logo h1 {
+  }
+  .contentOverlay {
   }
 }

@@ -1,15 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/EditUser.module.css";
+import API from "../api/axiosInstance";
 
-const Settings = ({ onBack }) => {
+const Settings = ({ onBack, setUserData }) => {
+  // --- RESTORED MISSING STATES ---
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ type: "", text: "" });
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    Username: "",
     email: "",
-    contactNumber: "",
-    position: "",
+    profile: "",
   });
 
+  // Fetch initial details on mount
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data } = await API.get("/api/user/userDetails");
+        if (data.success) {
+          setFormData({
+            Username: data.user.username,
+            email: data.user.email,
+            profile: data.user.profile || "",
+          });
+        }
+      } catch (err) {
+        console.error("Error fetching settings:", err);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  // --- RESTORED MISSING CHANGE HANDLER ---
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -18,13 +40,33 @@ const Settings = ({ onBack }) => {
     }));
   };
 
-  const handleUpdateInfo = (e) => {
+  const handleUpdateInfo = async (e) => {
     e.preventDefault();
-    console.log("Updated info:", formData);
-  };
+    setLoading(true);
+    setMessage({ type: "", text: "" });
 
-  const handleChangePassword = () => {
-    console.log("Change password clicked");
+    try {
+      // Check backend: if you used router.patch use .patch, if .put use .put
+      const { data } = await API.patch("/api/user/editUser", formData);
+
+      if (data.success) {
+        setMessage({ type: "success", text: "Profile updated successfully!" });
+
+        // Update Sidebar in Home.jsx immediately
+        setUserData({
+          username: data.user.username,
+          email: data.user.email,
+          profile: data.user.profile,
+        });
+      }
+    } catch (err) {
+      setMessage({
+        type: "error",
+        text: err.response?.data?.message || "Failed to update profile",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,39 +79,44 @@ const Settings = ({ onBack }) => {
           </button>
         </div>
 
+        {/* Message Display */}
+        {message.text && (
+          <div
+            className={
+              message.type === "success" ? styles.successMsg : styles.errorMsg
+            }
+          >
+            {message.text}
+          </div>
+        )}
+
         <div className={styles.profileSection}>
           <div className={styles.profileAvatar}>
             <img
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+              src={
+                formData.profile ||
+                `https://ui-avatars.com/api/?name=${formData.Username}`
+              }
               alt="Profile"
+              className={styles.avatarCircle}
             />
           </div>
           <div className={styles.profileDetails}>
-            <h3>Sachin Vadhal</h3>
-            <p>sachinvadhal@gmail.com</p>
+            <h3>{formData.Username}</h3>
+            <p>{formData.email}</p>
           </div>
         </div>
 
         <form onSubmit={handleUpdateInfo} className={styles.accountForm}>
           <div className={styles.inputGroup}>
-            <label>First Name</label>
+            <label>Username</label>
             <input
               type="text"
-              name="firstName"
-              value={formData.firstName}
+              name="Username"
+              value={formData.Username}
               onChange={handleChange}
               className={styles.inputField}
-            />
-          </div>
-
-          <div className={styles.inputGroup}>
-            <label>Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              className={styles.inputField}
+              required
             />
           </div>
 
@@ -81,41 +128,29 @@ const Settings = ({ onBack }) => {
               value={formData.email}
               onChange={handleChange}
               className={styles.inputField}
+              required
             />
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Contact Number</label>
-            <input
-              type="tel"
-              name="contactNumber"
-              value={formData.contactNumber}
-              onChange={handleChange}
-              className={styles.inputField}
-            />
-          </div>
-
-          <div className={styles.inputGroup}>
-            <label>Position</label>
+            <label>Profile Image URL</label>
             <input
               type="text"
-              name="position"
-              value={formData.position}
+              name="profile"
+              value={formData.profile}
               onChange={handleChange}
+              placeholder="Paste image link here"
               className={styles.inputField}
             />
           </div>
 
           <div className={styles.buttonGroup}>
-            <button type="submit" className={styles.btnUpdate}>
-              Update Info
-            </button>
             <button
-              type="button"
-              className={styles.btnPassword}
-              onClick={handleChangePassword}
+              type="submit"
+              className={styles.btnUpdate}
+              disabled={loading}
             >
-              Change Password
+              {loading ? "Updating..." : "Update Info"}
             </button>
           </div>
         </form>

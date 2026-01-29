@@ -14,7 +14,7 @@ const Home = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // Initialize as empty array to prevent .map() errors
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -36,7 +36,7 @@ const Home = () => {
       } catch (error) {
         console.error("Fetch Error:", error);
         setError(
-          error.response?.data?.Error || "Unable to fetch tasks from server"
+          error.response?.data?.Error || "Unable to fetch tasks from server",
         );
         setTasks([]);
       }
@@ -44,7 +44,6 @@ const Home = () => {
 
     loadTasksFromServer();
   }, []); // Empty dependency array means this runs only once on mount
-
 
   const handleLogout = async () => {
     try {
@@ -54,61 +53,99 @@ const Home = () => {
       setError(error.response?.data?.Error || "Unable to logout");
     }
   };
+  // ... inside your Home component ...
+  const [userData, setUserData] = useState({
+    username: "Loading...",
+    email: "...",
+    profile: null,
+  });
 
-const handleAddTask = async (newTaskData) => {
-  try {
-    const { data, status } = await API.post("/api/user/task/create", {
-      title: newTaskData.title,
-      status: newTaskData.status || "In Progress",
-      priority: newTaskData.priority || "Medium",
-      dueDate: newTaskData.date,
-      description: newTaskData.description,
-      category: newTaskData.category || "Others",
-    });
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        // Ensure this endpoint matches your backend route
+        const { data, status } = await API.get("/api/user/userDetails");
+        if (status === 200) {
+          setUserData({
+            username: data.user.username,
+            email: data.user.email,
+            profile: data.user.profile,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch user details", err);
+      }
+    };
+    fetchUserDetails();
+  }, []);
+  // Home.jsx - Ensure handleAddTask looks exactly like this
+  const handleAddTask = async (newTaskData) => {
+    try {
+      const { data, status } = await API.post(
+        "/api/user/task/create",
+        newTaskData,
+      );
 
-    // 200 or 201 means the backend saved it successfully
-    if (status === 201 || status === 200) {
-      /** * CRITICAL FIX:
-       * Your backend controller returns { message: "...", success: true, task: {...} }
-       * We must extract ONLY the task object to add to our list.
-       */
-      const actualTask = data.task ? data.task : data;
+      // Your backend likely returns 201 for "Created"
+      if (status === 201 || status === 200) {
+        const savedTask = data.task ? data.task : data;
 
-      // Update the local state array so React re-renders immediately
-      setTasks((prevTasks) => [...prevTasks, actualTask]);
+        // Update state: Add the NEW task to the TOP of the list
+        setTasks((prevTasks) => [savedTask, ...prevTasks]);
+        setSelectedTask(savedTask);
 
-      // Set the newly created task as the selected one
-      setSelectedTask(actualTask);
-
-      // Close the modal
-      setIsAddModalOpen(false);
-      setError("");
+        // THIS IS THE CRITICAL LINE: Close the modal
+        setIsAddModalOpen(false);
+        setError("");
+      }
+    } catch (error) {
+      console.error("Add Task Error:", error);
+      setError(error.response?.data?.message || "Failed to create task");
     }
-  } catch (error) {
-    console.error("Add Task Error:", error);
-    setError(error.response?.data?.message || "Failed to create task");
-  }
-};
-  const handleDeleteTask = async () => {
+  };
+ const handleDeleteTask = async () => {
     if (!selectedTask) return;
-    const taskId = selectedTask._id || selectedTask.id;
+    const taskId = selectedTask._id;
 
     try {
-      await API.delete(`/api/user/task/delete/${taskId}`);
-
-      const updatedTasks = tasks.filter((t) => (t._id || t.id) !== taskId);
-      setTasks(updatedTasks);
-      setSelectedTask(updatedTasks.length > 0 ? updatedTasks[0] : null);
-      alert("Task deleted successfully!");
+      const { status } = await API.delete(`/api/user/task/delete/${taskId}`);
+      if (status === 200) {
+        const updatedTasks = tasks.filter((t) => t._id !== taskId);
+        setTasks(updatedTasks);
+        setSelectedTask(updatedTasks.length > 0 ? updatedTasks[0] : null);
+      }
     } catch (error) {
-      setError(error.response?.data?.Error || "Unable to delete task");
+      setError("Could not delete from server",error);
     }
   };
+const handleSaveTask = async (updatedData) => {
+  try {
+    const taskId = selectedTask._id; // Get the ID of the task we are editing
 
-  const handleSaveTask = (updatedData) => {
-    console.log("Edit logic to be implemented:", updatedData);
-    // You will need a PUT/PATCH request here later
-  };
+    // Mapping frontend names to backend names
+    const payload = {
+      title: updatedData.title,
+      description: updatedData.description,
+      priority: updatedData.priority,
+      dueDate: updatedData.date, // Changing 'date' back to 'dueDate' for MongoDB
+    };
+
+    const { data, status } = await API.patch(`/api/user/task/update/${taskId}`, payload);
+
+    if (status === 200 || data.success) {
+      // Update the local list so the UI changes immediately
+      setTasks((prev) =>
+        prev.map((t) => (t._id === taskId ? data.newData : t))
+      );
+      setSelectedTask(data.newData);
+      setIsEditModalOpen(false);
+      alert("Task updated successfully!");
+    }
+  } catch (error) {
+    console.error("Update Error:", error);
+    alert("Failed to update task in MongoDB");
+  }
+};
 
   const handleSettings = () => setShowSettings(true);
   const handleBackFromSettings = () => setShowSettings(false);
@@ -117,21 +154,31 @@ const handleAddTask = async (newTaskData) => {
   return (
     <div className={styles.homeContainer}>
       {/* Sidebar */}
-      <aside className={styles.sidebar}>
+      <i
+        className={`fa-solid fa-bars ${styles.menuIcon}`}
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+      ></i>
+      <aside
+        className={`${styles.sidebar} ${isSidebarOpen ? styles.sidebarOpen : ""}`}
+      >
         <div className={styles.logo}>
-          <h1>ToDoHQ</h1>
+          <h1>Owl TODO</h1>
         </div>
         <div className={styles.userProfile}>
           <div className={styles.userInfo}>
             <div className={styles.userAvatar}>
               <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100"
-                alt="Profile"
+                src={userData.profile}
+                alt="User Profile"
+                onError={(e) => {
+                  // Safety fallback if the URL is broken
+                  e.target.src = `https://ui-avatars.com/api/?name=${userData.username}&background=f56565&color=fff`;
+                }}
               />
             </div>
             <div className={styles.userDetails}>
-              <h3>Samson Uwaifo</h3>
-              <p>samson@email.com</p>
+              <h3>{userData.username}</h3>
+              <p>{userData.email}</p>
             </div>
           </div>
         </div>
@@ -161,7 +208,10 @@ const handleAddTask = async (newTaskData) => {
       {/* Main Content */}
       <main className={styles.mainContent}>
         {showSettings ? (
-          <Settings onBack={handleBackFromSettings} />
+          <Settings
+            onBack={handleBackFromSettings}
+            setUserData={setUserData} // Add this prop
+          />
         ) : (
           <>
             <section className={styles.taskList}>
@@ -270,7 +320,7 @@ const handleAddTask = async (newTaskData) => {
       />
       <AddTaskModal
         isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
+        onClose={() => setIsAddModalOpen(false)} // Check this line
         onAdd={handleAddTask}
       />
     </div>

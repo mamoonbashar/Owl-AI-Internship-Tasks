@@ -19,7 +19,8 @@
   max-width: 700px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
@@ -97,7 +98,15 @@
   font-size: 14px;
   color: #4b5563;
 }
-
+.cancelButton {
+  background-color: white;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+.cancelButton:hover {
+  background-color: #f3f4f6;
+}
 .radioLabel input[type="radio"] {
   width: 16px;
   height: 16px;
@@ -216,6 +225,7 @@
   display: flex;
   justify-content: flex-start;
   margin-top: 24px;
+  gap: 10px;
 }
 
 .doneButton {
@@ -233,7 +243,8 @@
 .doneButton:hover {
   background-color: #e53e3e;
   transform: translateY(-1px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 

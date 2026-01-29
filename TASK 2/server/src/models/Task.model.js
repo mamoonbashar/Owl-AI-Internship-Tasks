@@ -2,36 +2,24 @@ import mongoose from "mongoose";
 
 const taskSchema = mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-      trim: [true, "Title is required"],
-      maxlength: [50, "Title Cannot be more than 50 characters"],
-    },
-    description: {
-      type: String,
-      required: true,
-      maxlength: [600, "Description cannot be more than 600 characters"],
-    },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    title: { type: String, required: true, trim: true, maxlength: 50 },
+    description: { type: String, required: true, maxlength: 600 },
+    // ADD THIS FIELD
+    dueDate: { type: String },
     status: {
       type: String,
       required: true,
       enum: ["completed", "pending", "progress"],
-      default: "Others",
+      default: "pending",
     },
     category: {
       type: String,
       required: true,
       enum: ["Work", "Home", "others"],
-      default: "Others",
+      default: "others",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-
 export default mongoose.model("Task", taskSchema);
